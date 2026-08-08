@@ -1,16 +1,19 @@
-const mongoose = require("mongoose");
+ require("dotenv").config();
 
-async function connectingDatabase() {
+const app = require("./src/app");
+const connectingDatabase = require("./src/Database/db");
+
+async function startServer() {
     try {
-        console.log("MONGODB_URL exists:", !!process.env.MONGODB_URL);
+        await connectingDatabase();
 
-        await mongoose.connect(process.env.MONGODB_URL);
+        app.listen(3000, () => {
+            console.log("Server is running on Port 3000");
+        });
 
-        console.log("Database Is Connected Successfully");
     } catch (err) {
         console.log("Database connection failed:", err);
-        throw err;
     }
 }
 
-module.exports = connectingDatabase;
+startServer();
