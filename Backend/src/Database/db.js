@@ -1,14 +1,16 @@
-const mongoose = require("mongoose")
+const mongoose = require("mongoose");
 
- function connectingDatabase(){
-    mongoose.connect(process.env.MONGODB_URL)
-    .then(()=>{
-        console.log("Database Is Connected Sucessfully");
-            })
-     .catch((err)=>{
-        console.log("Error Accoured",err);
-        
-     })       
- }
+async function connectingDatabase() {
+    try {
+        console.log("MONGODB_URL exists:", !!process.env.MONGODB_URL);
 
- module.exports = connectingDatabase; 
+        await mongoose.connect(process.env.MONGODB_URL);
+
+        console.log("Database Is Connected Successfully");
+    } catch (err) {
+        console.log("Database connection failed:", err);
+        throw err;
+    }
+}
+
+module.exports = connectingDatabase;
